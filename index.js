@@ -1,5 +1,6 @@
-const {Client, Events, GatewayIntentBits } = require('discord.js');
+const {Client, GatewayIntentBits, Collection} = require('discord.js');
 const config = require('./Config/config.json');
+const colors = require("colors");
 
 const cometta = new Client({
     intents: [
@@ -19,16 +20,31 @@ const cometta = new Client({
     ],
 });
 
+try {
+  const stringlength2 = 69;
+  console.log("\n")
+  console.log(`     ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓`.bold.blue);
+  console.log(`     ┃ `.bold.blue + " ".repeat(-1 + stringlength2 - ` ┃ `.length) + "┃".bold.blue)
+  console.log(`     ┃ `.bold.blue + `Now Start Running Bot`.bold.blue + " ".repeat(-1 + stringlength2 - ` ┃ `.length - `Now Start Running Bot`.length) + "┃".bold.blue)
+  console.log(`     ┃ `.bold.blue + " ".repeat(-1 + stringlength2 - ` ┃ `.length) + "┃".bold.blue)
+  console.log(`     ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛`.bold.blue)
+  console.log(`\n`);
+} catch (err) { console.log(err) }
+
+cometta.commands = new Collection;
+
 async function requirehandlers(){
-    for await (const hander of [
+    for await (const hander of[
       "events",
-      "commands"
+      "commands",
+      "AntiCrash",
+      "DeployCmd"
     ]) {
       try{
         await require(`./handlers/${hander}`)(cometta);
       }catch(e){console.log(e)}
     }
   }
-  requirehandlers()
+  requirehandlers();
 
 cometta.login(config.token);
