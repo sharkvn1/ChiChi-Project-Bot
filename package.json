@@ -13,6 +13,9 @@
   "author": "Fumino The Fish#1910",
   "license": "ISC",
   "dependencies": {
+    "@discordjs/rest": "^1.7.0",
+    "colors": "^1.4.0",
+    "discord-api-types": "^0.37.38",
     "discord.js": "^14.9.0",
     "fs": "^0.0.1-security",
     "path": "^0.12.7"
