@@ -23,18 +23,14 @@ module.exports = {
         const canvas = createCanvas(700, 250);
         const context = canvas.getContext('2d');
 
-        const bg = await readFile('./img/canvas.jpg');
+        const bg = await readFile('./img/welcomewa.jpg');
         const bgi = new Image();
         bgi.src = bg;
         context.drawImage(bgi, 0, 0, canvas.width, canvas.height);
 
-        context.font = '28px tahoma';
-        context.fillStyle = '#ffffff';
-        context.fillText('Welcome', canvas.width / 2.5, canvas.height / 3.5);
-
         context.font = applyText(canvas, `${cometta.user.username}!`);
         context.fillStyle = '#ffffff';
-        context.fillText(`${cometta.user.username}!`, canvas.width / 2.5, canvas.height / 1.8);
+        context.fillText(`${cometta.user.username}!`, canvas.width / 2.5, canvas.height / 3.3);
 
         context.beginPath();
         context.arc(125, 125, 100, 0, Math.PI * 2, true);
