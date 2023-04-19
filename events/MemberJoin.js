@@ -34,7 +34,7 @@ module.exports = {
 
         context.font = applyText(canvas, `${cometta.user.username}!`);
         context.fillStyle = '#ffffff';
-        context.fillText(`${cometta.user.username}}!`, canvas.width / 2.5, canvas.height / 1.8);
+        context.fillText(`${cometta.user.username}!`, canvas.width / 2.5, canvas.height / 1.8);
 
         context.beginPath();
         context.arc(125, 125, 100, 0, Math.PI * 2, true);
