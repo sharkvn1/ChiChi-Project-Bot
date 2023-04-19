@@ -7,7 +7,7 @@ const applyText = (canvas, text) => {
     const context = canvas.getContext('2d');
     let fontSize = 70;
     do {
-        context.font = `${fontSize -= 10}px sans-serif`;
+        context.font = `${fontSize -= 10}px tahoma`;
     } while (context.measureText(text).width > canvas.width - 300);
     return context.font;
 };
@@ -28,7 +28,7 @@ module.exports = {
         bgi.src = bg;
         context.drawImage(bgi, 0, 0, canvas.width, canvas.height);
 
-        context.font = '28px sans-serif';
+        context.font = '28px tahoma';
         context.fillStyle = '#ffffff';
         context.fillText('Welcome', canvas.width / 2.5, canvas.height / 3.5);
 
