@@ -7,7 +7,7 @@ const applyText = (canvas, text) => {
     const context = canvas.getContext('2d');
     let fontSize = 70;
     do {
-        context.font = `${fontSize -= 10}px tahoma`;
+        context.font = `${fontSize -= 10}px tahoma bold italic`;
     } while (context.measureText(text).width > canvas.width - 300);
     return context.font;
 };
@@ -32,6 +32,7 @@ module.exports = {
         context.fillStyle = '#ffffff';
         context.strokeStyle = '#5e3fb4';
         context.strokeText(`${cometta.user.username}!`, canvas.width / 2.5, canvas.height / 3.5);
+        context.fillText(`${cometta.user.username}!`, canvas.width / 2.5, canvas.height / 3.5);
 
         context.beginPath();
         context.arc(125, 125, 100, 0, Math.PI * 2, true);
