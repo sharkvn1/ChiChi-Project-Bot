@@ -23,7 +23,7 @@ module.exports = {
         const canvas = createCanvas(700, 250);
         const context = canvas.getContext('2d');
 
-        const bg = await readFile('./img/welcomewa.jpg');
+        const bg = await readFile('./img/welcome.jpg');
         const bgi = new Image();
         bgi.src = bg;
         context.drawImage(bgi, 0, 0, canvas.width, canvas.height);
