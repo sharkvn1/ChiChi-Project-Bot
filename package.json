@@ -19,6 +19,8 @@
     "discord-api-types": "^0.37.38",
     "discord.js": "^14.9.0",
     "fs": "^0.0.1-security",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "sequelize": "^6.31.0",
+    "sqlite3": "^5.1.6"
   }
 }
