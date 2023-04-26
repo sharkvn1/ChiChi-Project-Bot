@@ -6,12 +6,16 @@ const cmds = [];
 let dateNow = Date.now();
 
 module.exports = (cometta) => {
-    const cmdPath = path.join(__dirname, '../commands');
-    const cmdFiles = fs.readdirSync(cmdPath).filter(file => file.endsWith('.js'));
-
-    for (const file of cmdFiles) {
-        const cmd = require(`../commands/${file}`);
-        cmds.push(cmd.data.toJSON());
+    const foldersPath = path.join(__dirname, '../commands');
+    const cmdsFolder = fs.readdirSync(foldersPath);
+    for (const folder of cmdsFolder) {
+        const cmdPath = path.join(foldersPath, folder);
+        const cmdFiles = fs.readdirSync(cmdPath).filter(file => file.endsWith('.js'));
+        for (const file of cmdFiles) {
+            const filePath = path.join(cmdPath, file);
+            const cmd = require(filePath);
+            cmds.push(cmd.data.toJSON());
+        }
     }
 
     const rest = new REST().setToken(token);
