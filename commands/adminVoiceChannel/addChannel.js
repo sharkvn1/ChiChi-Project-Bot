@@ -2,14 +2,13 @@ const { SlashCommandBuilder, PermissionFlagsBits, ChannelType, Interaction } = r
 const voiceChannelConfig = require('../../database/models/voiceChannelConfig')
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('lobby-config')
+        .setName('lobby')
         .setDescription('Config your lobby')
-        // todo: change the localization
         .setNameLocalizations({
-            vi: 'thêm-lobby',
+            vi: 'lobby',
         })
         .setDescriptionLocalizations({
-            vi: 'thêm lobby mới',
+            vi: 'cấu hình lobby',
         })
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .setDMPermission(false)
@@ -18,12 +17,11 @@ module.exports = {
             subcommand
                 .setName('add')
                 .setDescription('add a new lobby')
-                // TODO: change the localization
                 .setNameLocalizations({
-                    vi: 'stm'
+                    vi: 'thêm'
                 })
                 .setDescriptionLocalizations({
-                    vi: 'stm'
+                    vi: 'thêm lobby mới'
                 })
                 .addChannelOption(option =>
                     option.setName('channel')
@@ -32,7 +30,7 @@ module.exports = {
                         })
                         .setDescription('channel you want to be a new lobby')
                         .setDescriptionLocalizations({
-                            vi: 'kênh bạn muốn add',
+                            vi: 'kênh bạn muốn add làm lobby mới',
                         })
                         .addChannelTypes(ChannelType.GuildVoice)
                         .setRequired(true)
@@ -42,23 +40,21 @@ module.exports = {
             subcommand
                 .setName('remove')
                 .setDescription('romeve a lobby')
-                // todo: change the localization
                 .setNameLocalizations({
-                    vi: 'stmm',
+                    vi: 'xóa',
                 })
                 .setDescriptionLocalizations({
-                    vi: 'stm'
+                    vi: 'xóa lobby'
                 })
                 .addChannelOption(option =>
                     option
                         .setName('channel')
                         .setDescription('channel you want to be removed')
-                        // todo: change the localization
                         .setNameLocalizations({
-                            vi: 'stm'
+                            vi: 'kênh'
                         })
                         .setDescriptionLocalizations({
-                            vi: 'stm'
+                            vi: 'lobby bạn muốn xóa'
                         })
                         .addChannelTypes(ChannelType.GuildVoice)
                         .setRequired(true)
