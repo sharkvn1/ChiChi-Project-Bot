@@ -18,7 +18,7 @@ module.exports = {
             where: { voiceChannelId: oS.channelId }
         }).catch(err => { console.log(err) })
 
-        if(VCdata === null) return;
+        
 
         if (CGdata.voiceChannelId == nS.channelId) {
             await guild.channels.create({
@@ -33,6 +33,8 @@ module.exports = {
                 })
             })
         }
+        
+        if(VCdata === null) return;
 
         if(oS.channelId !== null && VCdata.voiceChannelId == oS.channelId){
             if(oS.channel.members.filter(x => !x.user.bot).size == 0){
