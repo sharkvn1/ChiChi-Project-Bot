@@ -9,6 +9,7 @@ module.exports = {
      * @param {Client} cometta 
      */
     async execute(oS, nS) {
+
         const { member, guild } = oS;
         const CGdata = await voiceChannelConfig.findOne({
             where: { guildId: nS.guild.id },
@@ -16,7 +17,9 @@ module.exports = {
         const VCdata = await voiceChannel.findOne({
             where: { voiceChannelId: oS.channelId }
         }).catch(err => { console.log(err) })
-        
+
+        if(VCdata === null) return;
+
         if (CGdata.voiceChannelId == nS.channelId) {
             await guild.channels.create({
                 name: `${member.user.username}`,
@@ -26,11 +29,11 @@ module.exports = {
                 await member.voice.setChannel(Channel);
                 await voiceChannel.create({
                     voiceChannelId: Channel.id,
+                    voiceChannelOwner: member.user.id,
                 })
             })
         }
 
-        if(VCdata === null) return;
         if(oS.channelId !== null && VCdata.voiceChannelId == oS.channelId){
             if(oS.channel.members.filter(x => !x.user.bot).size == 0){
                 let channel = oS.guild.channels.cache.get(oS.channelId);
