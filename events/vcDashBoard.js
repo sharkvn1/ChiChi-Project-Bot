@@ -20,7 +20,6 @@ module.exports = {
                 interaction.reply({ content: '!You must be in a temp voice channel!', ephemeral: true })
                 return;
             }
-
             if (vcData.voiceChannelOwner != interaction.member.id) {
                 interaction.reply({ content: '!You are not owner of this voice channel!', ephemeral: true })
                 return;
