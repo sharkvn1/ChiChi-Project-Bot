@@ -1,7 +1,7 @@
 const { Events } = require('discord.js');
 let dateNow = Date.now();
 const voiceChannel = require("../database/models/voiceChannelCreate");
-const voiceChannelConfig = require("../database/models/voiceChannelConfig");
+const botConfig = require("../database/models/botConfig");
 
 module.exports = {
     name: Events.ClientReady,
@@ -40,7 +40,7 @@ module.exports = {
         //database loading
         console.log("\n[x] :: ".magenta + `Now starting loading database...`.brightYellow);
         voiceChannel.sync({force: true});
-        voiceChannelConfig.sync({force: false});
+        botConfig.sync({force: false});
         console.log("[x] :: ".magenta + `Loaded database after: `.brightGreen + `${Date.now() - dateNow}ms`.green);
     }
 }
