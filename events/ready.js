@@ -1,9 +1,13 @@
 const { Events } = require('discord.js');
-const {timeStart} = require('../index');
+let dateNow = Date.now();
+const voiceChannel = require("../database/models/voiceChannelCreate");
+const voiceChannelConfig = require("../database/models/voiceChannelConfig");
+
 module.exports = {
     name: Events.ClientReady,
     once: true,
     execute(cometta){
+        //logging meessage
         try {
             const stringlength2 = 69;
             console.log("\n")
@@ -32,5 +36,11 @@ module.exports = {
             console.log(`     ┃ `.bold.blue + " ".repeat(-1 + stringlength2 - ` ┃ `.length) + "┃".bold.blue)
             console.log(`     ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛`.bold.blue)
         } catch (err) { console.log(err) }
+
+        //database loading
+        console.log("\n[x] :: ".magenta + `Now starting loading database...`.brightYellow);
+        voiceChannel.sync({force: true});
+        voiceChannelConfig.sync({force: false});
+        console.log("[x] :: ".magenta + `Loaded database after: `.brightGreen + `${Date.now() - dateNow}ms`.green);
     }
 }
