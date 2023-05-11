@@ -10,6 +10,10 @@ const voiceChannel = sequelize.define('voiceChannel', {
     voiceChannelId: {
         type: Sequelize.STRING,
         allowNull: false,
+    },
+    voiceChannelOwner: {
+        type: Sequelize.STRING,
+        allowNull: false,
     }
 })
 
