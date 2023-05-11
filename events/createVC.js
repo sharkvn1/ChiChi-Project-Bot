@@ -9,38 +9,37 @@ module.exports = {
      * @param {Client} cometta 
      */
     async execute(oS, nS) {
-
         const { member, guild } = oS;
-        const CGdata = await voiceChannelConfig.findOne({
+        const CGdata = await voiceChannelConfig.findAll({
             where: { guildId: nS.guild.id },
+            raw: true
         })
         const VCdata = await voiceChannel.findOne({
             where: { voiceChannelId: oS.channelId }
         }).catch(err => { console.log(err) })
 
-        
-
-        if (CGdata.voiceChannelId == nS.channelId) {
-            await guild.channels.create({
-                name: `${member.user.username}`,
-                type: ChannelType.GuildVoice,
-                parent: nS.channel.parent,
-            }).then(async Channel => {
-                await member.voice.setChannel(Channel);
-                await voiceChannel.create({
-                    voiceChannelId: Channel.id,
-                    voiceChannelOwner: member.user.id,
+        for (const i in CGdata) {
+            if (CGdata[i].voiceChannelId == nS.channelId) {
+                await guild.channels.create({
+                    name: `${member.user.username}`,
+                    type: ChannelType.GuildVoice,
+                    parent: nS.channel.parent,
+                }).then(async Channel => {
+                    await member.voice.setChannel(Channel);
+                    await voiceChannel.create({
+                        voiceChannelId: Channel.id,
+                        voiceChannelOwner: member.user.id,
+                    })
                 })
-            })
+            }
         }
-        
-        if(VCdata === null) return;
+        if (VCdata === null) return;
 
-        if(oS.channelId !== null && VCdata.voiceChannelId == oS.channelId){
-            if(oS.channel.members.filter(x => !x.user.bot).size == 0){
+        if (oS.channelId !== null && VCdata.voiceChannelId == oS.channelId) {
+            if (oS.channel.members.filter(x => !x.user.bot).size == 0) {
                 let channel = oS.guild.channels.cache.get(oS.channelId);
                 await channel.delete();
-                await voiceChannel.destroy({ where: {voiceChannelId: channel.id}})
+                await voiceChannel.destroy({ where: { voiceChannelId: channel.id } })
             }
         }
     }
