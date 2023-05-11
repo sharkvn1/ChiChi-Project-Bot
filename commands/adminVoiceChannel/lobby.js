@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, ButtonBuilder, EmbedBuilder, ActionRowBuilder, PermissionFlagsBits, ChannelType, Interaction, ButtonStyle } = require('discord.js');
-const voiceChannelConfig = require('../../database/models/voiceChannelConfig')
+const botConfig = require('../../database/models/botConfig')
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('lobby')
@@ -97,7 +97,7 @@ module.exports = {
         switch (cmd) {
             case 'add':
                 try {
-                    await voiceChannelConfig.create({
+                    await botConfig.create({
                         voiceChannelId: textChannel.id,
                         guildId: interaction.member.guild.id,
                     }).then(vc => {
@@ -112,7 +112,7 @@ module.exports = {
                 break;
 
             case 'remove':
-                const find = await voiceChannelConfig.destroy({ where: { voiceChannelId: textChannel.id } });
+                const find = await botConfig.destroy({ where: { voiceChannelId: textChannel.id } });
                 if (!find) return interaction.reply('cannot find channel');
                 interaction.reply(`successfully removed **${textChannel.name}**`)
                 break;
