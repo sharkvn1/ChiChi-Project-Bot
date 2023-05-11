@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../Database');
 
-const voiceChannelConfig = sequelize.define('voiceChannelConfig', {
+const botConfig = sequelize.define('voiceChannelConfig', {
     Id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -13,8 +13,12 @@ const voiceChannelConfig = sequelize.define('voiceChannelConfig', {
     },
     voiceChannelId: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
+    },
+    mainChannelId: {
+        type: Sequelize.STRING,
+        allowNull: true,
     }
 })
 
-module.exports = voiceChannelConfig;
+module.exports = botConfig;
