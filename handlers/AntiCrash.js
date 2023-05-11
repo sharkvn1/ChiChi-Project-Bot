@@ -1,6 +1,19 @@
-module.exports = async(cometta) => {
+module.exports = async (cometta) => {
     let dateNow = Date.now();
     console.log("[x] :: ".magenta + `Now starting antiCrash...`.brightYellow);
+    const originalEmit = process.emit;
+    process.emit = function (name, data, ...args) {
+        if (
+            name === `warning` &&
+            typeof data === `object` &&
+            data.name === `ExperimentalWarning`
+            //if you want to only stop certain messages, test for the message here:
+            //&& data.message.includes(`Fetch API`)
+        ) {
+            return false;
+        }
+        return originalEmit.apply(process, arguments);
+    };
     //process.on('beforeExit', (code) => { // If You Want You Can Use
     //  console.log('=== [antiCrash] | [beforeExit] | [start] ==='.red.dim);
     //  console.log(code);
