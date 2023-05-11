@@ -1,5 +1,5 @@
 const { Client, Events, ChannelType, channelLink } = require('discord.js');
-const voiceChannelConfig = require('../database/models/voiceChannelConfig')
+const botConfig = require('../database/models/botConfig')
 const voiceChannel = require('../database/models/voiceChannelCreate')
 
 module.exports = {
@@ -9,15 +9,17 @@ module.exports = {
      * @param {Client} cometta 
      */
     async execute(oS, nS) {
+        let dateNow = Date.now();
         const { member, guild } = oS;
-        const CGdata = await voiceChannelConfig.findAll({
+        const CGdata = await botConfig.findAll({
             where: { guildId: nS.guild.id },
+            attributes: ['voiceChannelId'],
             raw: true
         })
         const VCdata = await voiceChannel.findOne({
-            where: { voiceChannelId: oS.channelId }
+            where: { voiceChannelId: oS.channelId },
         }).catch(err => { console.log(err) })
-
+        
         for (const i in CGdata) {
             if (CGdata[i].voiceChannelId == nS.channelId) {
                 await guild.channels.create({
@@ -40,6 +42,7 @@ module.exports = {
                 let channel = oS.guild.channels.cache.get(oS.channelId);
                 await channel.delete();
                 await voiceChannel.destroy({ where: { voiceChannelId: channel.id } })
+                console.log(`run time ${Date.now() - dateNow}`)
             }
         }
     }
