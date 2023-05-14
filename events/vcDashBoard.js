@@ -1,5 +1,5 @@
 const { Events, Interaction, PermissionFlagsBits, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = require('discord.js');
-const voiceChannel = require('../database/models/voiceChannelCreate')
+const tempVC = require('../database/tempVC')
 module.exports = {
     name: Events.InteractionCreate,
     /**
@@ -12,15 +12,13 @@ module.exports = {
 
         if (interaction.isButton()) {
 
-            const vcData = await voiceChannel.findOne({
-                where: { voiceChannelOwner: interaction.member.id }
-            })
+            const vcData = await tempVC.findOne({ owner: interaction.member.id })
 
             if (!vcData) {
                 interaction.reply({ content: '!You must be in a temp voice channel!', ephemeral: true })
                 return;
             }
-            if (vcData.voiceChannelOwner != interaction.member.id) {
+            if (vcData.owner != interaction.member.id) {
                 interaction.reply({ content: '!You are not owner of this voice channel!', ephemeral: true })
                 return;
             }
@@ -109,16 +107,14 @@ module.exports = {
             }
         } else if (interaction.isModalSubmit()){
 
-            const vcData = await voiceChannel.findOne({
-                where: { voiceChannelOwner: interaction.member.id }
-            })
+            const vcData = await tempVC.findOne({ owner: interaction.member.id })
 
             if (!vcData) {
                 interaction.reply({ content: '!You must be in a temp voice channel!', ephemeral: true })
                 return;
             }
 
-            if (vcData.voiceChannelOwner != interaction.member.id) {
+            if (vcData.owner != interaction.member.id) {
                 interaction.reply({ content: '!You are not owner of this voice channel!', ephemeral: true })
                 return;
             }

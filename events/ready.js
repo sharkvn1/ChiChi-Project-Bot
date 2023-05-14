@@ -1,11 +1,15 @@
-const { Events } = require('discord.js');
 let dateNow = Date.now();
-const voiceChannel = require("../database/models/voiceChannelCreate");
-const botConfig = require("../database/models/botConfig");
+const config = require('../Config/config.json')
+const { Events, Client } = require('discord.js');
+const mongoose = require('mongoose')
 
 module.exports = {
     name: Events.ClientReady,
     once: true,
+    /**
+     * 
+     * @param {Client} cometta 
+     */
     execute(cometta){
         //logging meessage
         try {
@@ -39,8 +43,9 @@ module.exports = {
 
         //database loading
         console.log("\n[x] :: ".magenta + `Now starting loading database...`.brightYellow);
-        voiceChannel.sync({force: true});
-        botConfig.sync({force: false});
+        (async () => {
+            await mongoose.connect(config.database).catch(console.error);
+        })();
         console.log("[x] :: ".magenta + `Loaded database after: `.brightGreen + `${Date.now() - dateNow}ms`.green);
     }
 }
