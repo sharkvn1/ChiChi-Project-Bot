@@ -5,10 +5,10 @@ module.exports = {
     once: true,
     /**
      * 
-     * @param {Client} cometta 
+     * @param {Client} chichi 
      */
-    async execute(cometta) {
-        const data = cometta.guilds.cache.toJSON();
+    async execute(chichi) {
+        const data = chichi.guilds.cache.toJSON();
         for (const i in data) {
             await guildConfig.findOne({
                 guildId: data[i].id

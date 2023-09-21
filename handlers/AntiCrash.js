@@ -1,4 +1,4 @@
-module.exports = async (cometta) => {
+module.exports = async (chichi) => {
     let dateNow = Date.now();
     console.log("[x] :: ".magenta + `Now starting antiCrash...`.brightYellow);
     const originalEmit = process.emit;

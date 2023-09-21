@@ -1,11 +1,11 @@
 const { REST, Routes } = require('discord.js');
-const { token, comettaBotId } = require('../Config/config.json');
+const { token, chichiBotId } = require('../Config/config.json');
 const fs = require('fs');
 const path = require('path');
 const cmds = [];
 let dateNow = Date.now();
 
-module.exports = (cometta) => {
+module.exports = (chichi) => {
     const foldersPath = path.join(__dirname, '../commands');
     const cmdsFolder = fs.readdirSync(foldersPath);
     for (const folder of cmdsFolder) {
@@ -22,9 +22,9 @@ module.exports = (cometta) => {
 
     (async () => {
         try {
-            console.log("[x] :: ".magenta + 'Now start depoly slash commands...'.brightYellow)
+            console.log("[x] :: ".magenta + 'Now start deploy slash commands...'.brightYellow)
             const data = await rest.put(
-                Routes.applicationCommands(comettaBotId),
+                Routes.applicationCommands(chichiBotId),
                 { body: cmds },
             );
             console.log("[x] :: ".magenta + `Successfully deploy ${cmds.length} slash commands after: `.brightGreen + `${Date.now() - dateNow}ms`.green);

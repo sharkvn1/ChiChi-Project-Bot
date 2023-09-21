@@ -2,7 +2,7 @@ const {Client, GatewayIntentBits, Collection} = require('discord.js');
 const config = require('./Config/config.json');
 const colors = require("colors");
 
-const cometta = new Client({
+const chichi = new Client({
     intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMembers,
@@ -31,20 +31,20 @@ try {
   console.log(`\n`);
 } catch (err) { console.log(err) }
 
-cometta.commands = new Collection;
+chichi.commands = new Collection;
 
 async function requirehandlers(){
-    for await (const hander of[
+    for await (const handler of[
       "events",
       "commands",
       "AntiCrash",
       "DeployCmd"
     ]) {
       try{
-        await require(`./handlers/${hander}`)(cometta);
+        await require(`./handlers/${handler}`)(chichi);
       }catch(e){console.log(e)}
     }
   }
   requirehandlers();
 
-cometta.login(config.token);
+chichi.login(config.token);

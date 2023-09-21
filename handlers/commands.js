@@ -3,7 +3,7 @@ const path = require('path');
 const cmds = [];
 let dateNow = Date.now();
 
-module.exports = (cometta) => {
+module.exports = (chichi) => {
     console.log("[x] :: ".magenta + `Now starting loading commands...`.brightYellow);
     const foldersPath = path.join(__dirname, '../commands');
     const cmdsFolder = fs.readdirSync(foldersPath);
@@ -15,7 +15,7 @@ module.exports = (cometta) => {
             const cmd = require(filePath);
             cmds.push(cmd.data.name);
             if ('data' in cmd && 'execute' in cmd) {
-                cometta.commands.set(cmd.data.name, cmd);
+                chichi.commands.set(cmd.data.name, cmd);
             } else {
                 console.log(`[Warning] the cmd at ${filePath} is missing a required "data" or "execute" property`.brightRed);
             }

@@ -1,7 +1,7 @@
 {
-  "name": "cometta-discord-bot",
+  "name": "chichi-discord-bot",
   "version": "0.0.1",
-  "description": "A Discord bot made for cometta project",
+  "description": "A Discord bot made for chichi project",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,16 +10,17 @@
     "Discord",
     "bot"
   ],
-  "author": "Fumino The Fish#1910",
+  "author": "fumino_the_axolotl",
   "license": "ISC",
   "dependencies": {
     "@discordjs/rest": "^1.7.0",
     "@napi-rs/canvas": "^0.1.40",
     "colors": "^1.4.0",
     "discord-api-types": "^0.37.38",
-    "discord.js": "^14.9.0",
+    "discord.js": "^14.13.0",
     "fs": "^0.0.1-security",
-    "mongoose": "^7.1.1",
+    "mongoose": "^7.5.2",
+    "nodemon": "^3.0.1",
     "path": "^0.12.7"
   }
 }

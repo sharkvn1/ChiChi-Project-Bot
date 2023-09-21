@@ -6,7 +6,7 @@ module.exports = {
     name: Events.VoiceStateUpdate,
     /**
      * 
-     * @param {Client} cometta 
+     * @param {Client} chichi 
      */
     async execute(oS, nS) {
         const { member, guild } = oS;
