@@ -2,14 +2,6 @@ const { Events, EmbedBuilder, Client, AttachmentBuilder } = require('discord.js'
 const { createCanvas, Image } = require('@napi-rs/canvas');
 const { readFile } = require('fs/promises');
 const { request } = require('undici');
-const applyText = (canvas, text) => {
-    const context = canvas.getContext('2d');
-    let fontSize = 70;
-    do {
-        context.font = `bold italic ${fontSize -= 10}px tahoma`;
-    } while (context.measureText(text).width > canvas.width - 300);
-    return context.font;
-};
 
 module.exports = {
     name: Events.GuildMemberAdd,
@@ -19,41 +11,59 @@ module.exports = {
      * @param {Client} chichi
      */
     async execute(chichi) {
-            const canvas = createCanvas(700, 250);
-            const context = canvas.getContext('2d');
+        const canvas = createCanvas(2000, 319);
+        const context = canvas.getContext('2d');
 
-            const bg = await readFile('./img/snakeCaveWelcome.png');
-            const bgi = new Image();
-            bgi.src = bg;
-            context.drawImage(bgi, 0, 0, canvas.width, canvas.height);
+        //draw background
+        const bg = await readFile('./img/snakeCaveWelcome.png');
+        const bgi = new Image();
+        bgi.src = bg;
+        context.drawImage(bgi, 0, 0, canvas.width, canvas.height);
 
-        context.font = applyText(canvas, `${chichi.user.username}!`);
-            context.fillStyle = '#ffffff';
-            context.strokeStyle = '#5e3fb4';
-        context.strokeText(`${chichi.user.username}!`, canvas.width / 2.5, canvas.height / 3.5);
-        context.fillText(`${chichi.user.username}!`, canvas.width / 2.5, canvas.height / 3.5);
+        //write new member name
+        context.font = 'bold italic 40px Comic Sans MS';
+        context.fillStyle = '#ffc530';
+        const username = `${interaction.user.username}`;
+        const usernameWidth = context.measureText(username).width;
+        const usernameX = (1400 - 900 - usernameWidth) / 2 + 900;
+        context.fillText(username, usernameX, 50);
 
-            context.beginPath();
-            context.arc(125, 125, 100, 0, Math.PI * 2, true);
-            context.closePath();
-            context.clip();
+        //write number of member
+        context.font = 'bold italic 20px Comic Sans MS';
+        context.fillStyle = '#ffc530';
+        const countMemberText = `Number of member: ${interaction.guild.memberCount}`;
+        const countMemberTextWidth = context.measureText(countMemberText).width
+        const countMemberTextX = (1400 - 900 - countMemberTextWidth) / 2 + 900;
+        context.fillText(countMemberText, countMemberTextX, 270);
 
-        const { body } = await request(chichi.user.displayAvatarURL({ extension: 'jpg' }));
-            const avt = new Image();
-            avt.src = Buffer.from(await body.arrayBuffer());
-            context.drawImage(avt, 25, 25, 200, 200);
+        //draw circle for member avatar
+        const circleX = (1400 - 1000 - 90) / 2 + 1000;
+        context.beginPath();
+        context.arc(circleX, 155, 90, 90, Math.PI * 2, true);
+        context.closePath();
+        context.clip();
 
-            const img = new AttachmentBuilder(canvas.toBuffer('image/png'), { name: 'test.png' });
+        //draw member avatar
+        const { body } = await request(interaction.user.displayAvatarURL({ extension: 'png' }));
+        const avt = new Image();
+        avt.src = Buffer.from(await body.arrayBuffer());
+        const avaX = (1400 - 1000 - 290) / 2 + 1000;
+        context.drawImage(avt, avaX, 55, 190, 190);
+        context.lineWidth = 3;
+        context.strokeStyle = 'yellow';
+        context.stroke();
 
-            const welcomeMessage = new EmbedBuilder()
-                .setTitle(`Welcome ${chichi.user.username} to our SnakeCave`)
-                .setColor('#5e3fb4')
-                .setDescription('Remember to read our rule')
-                .setThumbnail(`https://cdn.discordapp.com/attachments/912573387560353836/1153917571075145789/F6KBYUKbsAA6-Uy-removebg-preview.png`)
-                .setImage('attachment://test.png')
-                .setTimestamp();
-        await chichi.user.send({ embeds: [welcomeMessage], files: [img] }).catch(error => {
+        const img = new AttachmentBuilder(canvas.toBuffer('image/png'), { name: 'test.png' });
+
+        // const welcomeMessage = new EmbedBuilder()
+        //     .setTitle(`Welcome ${interaction.username} to our SnakeCave`)
+        //     .setColor('#5e3fb4')
+        //     .setDescription('Remember to read our rule')
+        //     .setThumbnail(`https://cdn.discordapp.com/attachments/912573387560353836/1153917571075145789/F6KBYUKbsAA6-Uy-removebg-preview.png`)
+        //     .setImage('attachment://test.png')
+        //     .setTimestamp();
+        await interaction.reply({ files: [img] }).catch(error => {
             console.log(error);
-            })
+        })
     }
 }

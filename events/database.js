@@ -1,4 +1,4 @@
-const { Events, Client } = require('discord.js');
+const { Events, Client, WelcomeChannel } = require('discord.js');
 const guildConfig = require('../database/guildConfig')
 module.exports = {
     name: Events.ClientReady,
@@ -15,7 +15,8 @@ module.exports = {
             }).then(Data => {
                 if (Data === null) {
                     new guildConfig({
-                        guildId: data[i].id
+                        guildId: data[i].id,
+                        WelcomeChannelId: 0
                     }).save();
                 }
             });

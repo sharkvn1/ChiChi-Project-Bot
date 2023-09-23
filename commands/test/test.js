@@ -1,70 +1,62 @@
-const { Interaction, EmbedBuilder, AttachmentBuilder, SlashCommandBuilder } = require('discord.js');
-const { createCanvas, Image } = require('@napi-rs/canvas');
-const { readFile } = require('fs/promises');
-const { request } = require('undici');
+import { Interaction, EmbedBuilder, AttachmentBuilder, SlashCommandBuilder, Message } from 'discord.js';
+import { createCanvas, Image } from '@napi-rs/canvas';
+import { readFile } from 'fs/promises';
+import { request } from 'undici';
 
 /**
  * 
  * @param {Interaction} interaction
  */
-module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('alabama')
-        .setDescription('idk wtf is this'),
-    async execute(interaction) {
-        const canvas = createCanvas(1500, 280);
-        const context = canvas.getContext('2d');
+export const data = new SlashCommandBuilder()
+    .setName('alabama')
+    .setDescription('idk wtf is this');
+export async function execute(interaction) {
+    const canvas = createCanvas(2000, 319);
+    const context = canvas.getContext('2d');
 
-        //draw background
-        const bg = await readFile('./img/snakeCaveWelcome.png');
-        const bgi = new Image();
-        bgi.src = bg;
-        context.drawImage(bgi, 0, 0, canvas.width, canvas.height);
+    //draw background
+    const bg = await readFile('./img/snakeCaveWelcome.png');
+    const bgi = new Image();
+    bgi.src = bg;
+    context.drawImage(bgi, 0, 0, canvas.width, canvas.height);
 
-        //write new member name
-        context.font = 'bold italic 40px Comic Sans MS';
-        context.fillStyle = '#ffc530';
-        const username = `${interaction.user.username}`;
-        const usernameWidth = context.measureText(username).width;
-        const usernameX = (1400 - 900 - usernameWidth) / 2 + 900;
-        context.fillText(username, usernameX, 50);
+    //write profile text
+    context.font = 'bold italic 40px Comic Sans MS';
+    context.fillStyle = '#ffc530';
+    context.fillText(`Profile`, 1380, 50);
 
-        //write number of member
-        context.font = 'bold italic 20px Comic Sans MS';
-        context.fillStyle = '#ffc530';
-        const countMemberText = `Number of member: ${interaction.guild.memberCount}`;
-        const countMemberTextWidth = context.measureText(countMemberText).width
-        const countMemberTextX = (1400 - 900 - countMemberTextWidth) / 2 + 900;
-        context.fillText(countMemberText, countMemberTextX, 270);
+    //write new member name
+    // context.font = 'bold italic 40px Comic Sans MS';
+    // context.fillStyle = '#ffc530';
+    // const username = `${interaction.user.username}`;
+    // const usernameWidth = context.measureText(username).width;
+    // const usernameX = (1700 - 1200 - usernameWidth) / 2 + 1200;
+    // context.fillText(username, usernameX, 50);
+    //write number of member
+    // context.font = 'bold italic 20px Comic Sans MS';
+    // context.fillStyle = '#ffc530';
+    // const countMemberText = `Number of member: ${interaction.guild.memberCount}`;
+    // const countMemberTextWidth = context.measureText(countMemberText).width
+    // const countMemberTextX = (1900 - 1400 - countMemberTextWidth) / 2 + 1400;
+    // context.fillText(countMemberText, countMemberTextX, 270);
+    //draw circle for member avatar
+    context.beginPath();
+    context.arc(1350, 155, 110, 0, Math.PI * 2, true);
+    context.closePath();
+    context.clip();
 
-        //draw circle for member avatar
-        const circleX = (1400 - 1000 - 90) / 2 + 1000;
-        context.beginPath();
-        context.arc(circleX, 155, 90, 90, Math.PI * 2, true);
-        context.closePath();
-        context.clip();
 
-        //draw member avatar
-        const { body } = await request(interaction.user.displayAvatarURL({ extension: 'png' }));
-        const avt = new Image();
-        avt.src = Buffer.from(await body.arrayBuffer());
-        const avaX = (1400 - 1000 - 290) / 2 + 1000;
-        context.drawImage(avt, avaX, 55, 190, 190);
-        context.lineWidth = 3;
-        context.strokeStyle = 'yellow';
-        context.stroke();
+    //draw member avatar
+    const { body } = await request(interaction.user.displayAvatarURL({ extension: 'png' }));
+    const avt = new Image();
+    avt.src = Buffer.from(await body.arrayBuffer());
+    context.drawImage(avt, 1250, 55, 200, 200);
+    context.lineWidth = 20;
+    context.strokeStyle = '#ffc630';
+    context.stroke();
 
-        const img = new AttachmentBuilder(canvas.toBuffer('image/png'), { name: 'test.png' });
-
-        // const welcomeMessage = new EmbedBuilder()
-        //     .setTitle(`Welcome ${interaction.username} to our SnakeCave`)
-        //     .setColor('#5e3fb4')
-        //     .setDescription('Remember to read our rule')
-        //     .setThumbnail(`https://cdn.discordapp.com/attachments/912573387560353836/1153917571075145789/F6KBYUKbsAA6-Uy-removebg-preview.png`)
-        //     .setImage('attachment://test.png')
-        //     .setTimestamp();
-        await interaction.reply({ files: [img] }).catch(error => {
-            console.log(error);
-        })
-    }
+    const img = new AttachmentBuilder(canvas.toBuffer('image/png'), { name: 'test.png' });
+    await interaction.reply({ files: [img] }).catch(error => {
+        console.log(error);
+    });
 }

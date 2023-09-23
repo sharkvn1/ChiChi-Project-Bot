@@ -175,13 +175,19 @@ module.exports = {
             case 'lobby_list':
                 const listEmbed = new EmbedBuilder()
                     .setColor('#5e3fb4')
-                    .setAuthor({ name: `list of lobby in **${interaction.guild.name}**`, iconURL: interaction.guild.iconURL() })
-                    .setFooter({ text: interaction.client.user.username, iconURL: interaction.client.user.avatarURL() })
+                    .setAuthor({ name: `list of lobby in *${interaction.guild.name}*`, iconURL: interaction.guild.iconURL() })
                 const listData = await guildConfig.findOne({ guildId: guildId })
-                for (const i in listData.voiceChannelId) {
+                if (listData.voiceChannelId.length == 0) {
                     listEmbed
-                        .addFields({ name: `Lobby ${i + 1}`, value: `<#${listData.voiceChannelId[i]}>` })
+                        .addFields({ name: 'Lobby 0', value: 'No lobby has been configured yet' })
+                } else {
+                    for (const i in listData.voiceChannelId) {
+                        listEmbed
+                            .addFields({ name: `Lobby ${i + 1}`, value: `<#${listData.voiceChannelId[i]}>`, inline: true })
+                    }
                 }
+                listEmbed
+                    .setFooter({ text: interaction.client.user.username, iconURL: interaction.client.user.displayAvatarURL() })
                 interaction.reply({ embeds: [listEmbed], ephemeral: true });
                 break;
         }
